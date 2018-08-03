@@ -24,7 +24,7 @@
         </div>
 
         <!-- category -->
-        <div class="type-bar">
+        <div class="category-bar">
             <div v-for="(cate, index) in categoryArray" :key="index">
                 <img v-lazy="cate.image" alt="" width="90%">
                 <span>{{cate.mallCategoryName}}</span>
@@ -35,11 +35,59 @@
         <div>
             <img v-lazy="adBanner" alt="" width="100%">
         </div>
+
+        <!-- recommend goods area -->
+        <div class="recommend-area">
+            <div class="recommend-title">
+                推荐商品
+            </div>
+            <div class="recommend-body">
+                <swiper :options="swiperOption">
+                    <swiper-slide v-for="(item, index) in recommendGoods" :key=index>
+                        <div class="recommend-item">
+                            <img :src="item.image" alt="" width="80%">
+                            <div>
+                                {{item.goodsName}}
+                            </div>
+                            <div>
+                                ￥{{item.price}}(￥{{item.mallPrice}})
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <!-- <div class="swiper-pagination" slot="pagination"></div> -->
+                </swiper>
+            </div>
+
+        </div>
+
+        <div class="floor">
+            <div class="floor-abnormal">
+                <div class="floor-one">
+                    <img :src="floor1_0.image" alt="" width="100%">
+                </div>
+                <div>
+                    <div class="floor-two">
+                        <img :src="floor1_1.image" alt="" width="100%">
+                    </div>
+                    <div>
+                        <img :src="floor1_2.image" alt="" width="100%">
+                    </div>
+                </div>
+            </div>
+            <div class="floor-reqular">
+                <div v-for="(item, index) in floor1.slice(3)" :key=index>
+                    <img :src="item.image" alt="" width="100%">
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+// require styles
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
   data() {
@@ -48,8 +96,26 @@ export default {
       locationIcon: require('../../assets/images/location.png'),
       bannerPicArray: [],
       categoryArray: [],
-      adBanner: ''
+      adBanner: '',
+      recommendGoods: [],
+      floor1: [],
+      floor1_0: [],
+      floor1_1: [],
+      floor1_2: [],
+
+      swiperOption: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      }
     }
+  },
+  components: {
+    swiper,
+    swiperSlide
   },
   created() {
     axios({
@@ -62,6 +128,11 @@ export default {
           this.bannerPicArray = response.data.data.slides
           this.categoryArray = response.data.data.category
           this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS
+          this.recommendGoods = response.data.data.recommend
+          this.floor1 = response.data.data.floor1
+          this.floor1_0 = this.floor1[0]
+          this.floor1_1 = this.floor1[1]
+          this.floor1_2 = this.floor1[2]
         }
       })
       .catch(error => {
@@ -99,7 +170,7 @@ export default {
   overflow: hidden;
 }
 
-.type-bar {
+.category-bar {
   background-color: #ffffff;
   margin: 0 0.3rem 0.3rem 0.3rem;
   border-radius: 0.3rem;
@@ -108,4 +179,66 @@ export default {
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+.recommend-area {
+  background-color: #ffffff;
+  margin-top: 0.3rem;
+}
+
+.recommend-title {
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  padding: 0.2rem;
+  color: darkorchid;
+}
+.recommend-body {
+  border-bottom: 1px solid #eee;
+}
+.recommend-item {
+  width: 99%;
+  border-right: 1px solid #eee;
+  font-size: 12px;
+  text-align: center;
+}
+
+.floor-abnormal {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.floor-abnormal div {
+  width: 10rem;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 1px solid #ddd;
+}
+
+.floor-one {
+  border-right: 1px solid #ddd;
+}
+.floor-two {
+  border-bottom: 1px solid #ddd;
+}
+
+.floor-reqular {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #fff;
+}
+
+.floor-reqular div {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 10em;
+    border-bottom: 1px solid #ddd;
+}
+
+.floor-reqular div:nth-child(odd) {
+    border-right: 1px solid #ddd;
+}
+
 </style>
