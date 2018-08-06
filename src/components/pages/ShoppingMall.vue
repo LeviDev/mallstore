@@ -50,7 +50,7 @@
                                 {{item.goodsName}}
                             </div>
                             <div>
-                                ￥{{item.price}}(￥{{item.mallPrice}})
+                                ￥{{item.price | priceFormat}}(￥{{item.mallPrice | priceFormat}})
                             </div>
                         </div>
                     </swiper-slide>
@@ -60,26 +60,26 @@
 
         </div>
 
-        <div class="floor">
-            <div class="floor-abnormal">
-                <div class="floor-one">
-                    <img :src="floor1_0.image" alt="" width="100%">
-                </div>
-                <div>
-                    <div class="floor-two">
-                        <img :src="floor1_1.image" alt="" width="100%">
-                    </div>
-                    <div>
-                        <img :src="floor1_2.image" alt="" width="100%">
-                    </div>
-                </div>
+        <floorComponent :floorData='floor1' :floorTitle="floorName.floor1"></floorComponent>
+        <floorComponent :floorData='floor2' :floorTitle="floorName.floor2"></floorComponent>
+        <floorComponent :floorData='floor3' :floorTitle="floorName.floor3"></floorComponent>
+
+        <div class="hot-sale-area">
+            <div class="hot-sale-title">
+                热卖商品
             </div>
-            <div class="floor-reqular">
-                <div v-for="(item, index) in floor1.slice(3)" :key=index>
-                    <img :src="item.image" alt="" width="100%">
-                </div>
+            <div class="hot-sale-item">
+                <van-list>
+                    <van-row gutter="0">
+                        <van-col span="12" v-for="(item, index) in hotSales" :key="index">
+                            <goodsInfo :goodsName="item.name" :goodsPrice="item.price" :goodsImage="item.image" :mallPrice="item.mallPrice"></goodsInfo>
+                            <!-- <div>{{item.name}}</div> -->
+                        </van-col>
+                    </van-row>
+                </van-list>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -88,6 +88,9 @@ import axios from 'axios'
 // require styles
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import floorComponent from '../component/FloorComponent'
+import goodsInfo from '../component/GoodsInfoComponent'
+import { toPrice } from '@/filters/priceFilter.js'
 
 export default {
   data() {
@@ -99,9 +102,10 @@ export default {
       adBanner: '',
       recommendGoods: [],
       floor1: [],
-      floor1_0: [],
-      floor1_1: [],
-      floor1_2: [],
+      floor2: [],
+      floor3: [],
+      floorName: {},
+      hotSales: [],
 
       swiperOption: {
         slidesPerView: 3,
@@ -115,7 +119,14 @@ export default {
   },
   components: {
     swiper,
-    swiperSlide
+    swiperSlide,
+    floorComponent,
+    goodsInfo
+  },
+  filters: {
+    priceFormat(price) {
+      return toPrice(price)
+    }
   },
   created() {
     axios({
@@ -130,9 +141,10 @@ export default {
           this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS
           this.recommendGoods = response.data.data.recommend
           this.floor1 = response.data.data.floor1
-          this.floor1_0 = this.floor1[0]
-          this.floor1_1 = this.floor1[1]
-          this.floor1_2 = this.floor1[2]
+          this.floor2 = response.data.data.floor2
+          this.floor3 = response.data.data.floor3
+          this.floorName = response.data.data.floorName
+          this.hotSales = response.data.data.hotGoods
         }
       })
       .catch(error => {
@@ -201,44 +213,10 @@ export default {
   text-align: center;
 }
 
-.floor-abnormal {
-  display: flex;
-  flex-direction: row;
-  font-size: 12px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
+.hot-sale-area {
+  text-align: center;
+  font-size: 14px;
+  height: 1.8rem;
+  line-height: 1.8rem;
 }
-
-.floor-abnormal div {
-  width: 10rem;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-bottom: 1px solid #ddd;
-}
-
-.floor-one {
-  border-right: 1px solid #ddd;
-}
-.floor-two {
-  border-bottom: 1px solid #ddd;
-}
-
-.floor-reqular {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: #fff;
-}
-
-.floor-reqular div {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    width: 10em;
-    border-bottom: 1px solid #ddd;
-}
-
-.floor-reqular div:nth-child(odd) {
-    border-right: 1px solid #ddd;
-}
-
 </style>
