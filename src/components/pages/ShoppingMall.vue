@@ -91,6 +91,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import floorComponent from '../component/FloorComponent'
 import goodsInfo from '../component/GoodsInfoComponent'
 import { toPrice } from '@/filters/priceFilter.js'
+import url from '@/server.config.js'
 
 export default {
   data() {
@@ -130,7 +131,7 @@ export default {
   },
   created() {
     axios({
-      url: 'https://www.easy-mock.com/mock/5b62a433dc98972baf832e07/index',
+      url: url.homeInfo,
       method: 'get'
     })
       .then(response => {
