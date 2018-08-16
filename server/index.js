@@ -22,7 +22,7 @@ app.use(async(ctx) => {
         console.log('Insert successfully')
     })
     let user = await User.findOne({})
-
+    // console.log(user)
 })()
 
 app.listen(3000, () =>{
