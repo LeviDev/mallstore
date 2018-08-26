@@ -28,6 +28,12 @@ export default {
             passwordErrorMessage: ''
         }
     },
+    created() {
+        if (localStorage.userInfo) {
+            Toast.success('您已经登录过了')
+            this.$router.push('/')
+        }
+    },
     methods: {
         goBack() {
             this.$router.go(-1)
@@ -36,15 +42,15 @@ export default {
             let isOK = true
             if (this.username.length < 4) {
                 isOK = false
-                this.nameErrorMessage = "用户名长度不能少于4位"
+                this.nameErrorMessage = '用户名长度不能少于4位'
             } else {
-                this.nameErrorMessage = ""
+                this.nameErrorMessage = ''
             }
             if (this.password.length < 4) {
                 isOK = false
-                this.passwordErrorMessage = "密码长度不能少于4位"
+                this.passwordErrorMessage = '密码长度不能少于4位'
             } else {
-                this.passwordErrorMessage = ""
+                this.passwordErrorMessage = ''
             }
             return isOK
         },
@@ -56,7 +62,7 @@ export default {
         axiosLogin() {
             this.loading = true
             axios({
-                url: url.loginUser,
+                url: url.login,
                 method: 'post',
                 data: {
                     userName: this.username,
@@ -64,18 +70,28 @@ export default {
                 }
             })
                 .then(response => {
-                    if (response.data.code == 200) {
-                        Toast.success(response.data.message)
-                        this.$router.push('/')
+                    // console.log(response.data)
+                    if (response.data.code == 200 && response.data.message) {
+                        new Promise((resolve, reject) => {
+                            localStorage.userInfo = this.userName
+                            setTimeout(() => {
+                                resolve()
+                            }, 500);
+                        }).then(() => {
+                            Toast.success('登录成功')
+                            this.$router.push('/')
+                        }).catch(error => {
+                            Toast.fail('登录失败')
+                            console.log(error)
+                        })
                     } else {
-                        console.log(response.data.message)
                         Toast.fail('登录失败')
                         this.loading = false
                     }
                 })
                 .catch(error => {
-                    console.log(error)
                     Toast.fail('登录失败')
+                    console.log(error)
                     this.loading = false
                 })
         }

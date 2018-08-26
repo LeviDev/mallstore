@@ -27,4 +27,18 @@ userSchema.pre('save', function(next) {
     })
 })
 
+userSchema.statics = {
+    comparePassword:(pwd1, pwd2) =>{
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(pwd1, pwd2, (err, isMatch) =>{
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(isMatch)
+                }
+            })
+        })
+    }
+}
+
 mogoose.model('User', userSchema)
