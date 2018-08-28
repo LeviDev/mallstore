@@ -71,7 +71,7 @@ export default {
                         this.goodsInfo = response.data.message
                         console.log(this.goodsInfo)
                     } else {
-                        Toast.error('获取服务器数据错误')
+                        Toast.fail('获取服务器数据错误')
                     }
                 })
                 .catch(error => {
