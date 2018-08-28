@@ -4,7 +4,8 @@ const LOCAL_URL = "http://localhost:3000/"
 const URL = {
     homeInfo: BASE + "index",
     registerUser: LOCAL_URL + "user/register",
-    login: LOCAL_URL + "user/login"
+    login: LOCAL_URL + "user/login",
+    goodsInfo: LOCAL_URL + "goods/getDetailInfo",
 }
 
 export default URL

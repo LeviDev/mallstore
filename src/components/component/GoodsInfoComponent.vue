@@ -1,5 +1,5 @@
 <template>
-    <div class="goods-info">
+    <div class="goods-info" @click="goGoodsInfo">
         <div class="goods-image">
             <img v-lazy="goodsImage" alt="" width="90%">
         </div>
@@ -16,12 +16,20 @@
 import { toPrice } from '@/filters/priceFilter.js'
 
 export default {
-  props: ['goodsName', 'goodsPrice', 'goodsImage', 'mallPrice'],
+  props: ['goodsName', 'goodsPrice', 'goodsImage', 'mallPrice', 'goodsId'],
   filters: {
     priceFormat(price) {
       return toPrice(price)
     }
-  }
+  },
+  methods: {
+      goGoodsInfo() {
+          this.$router.push({
+              name: 'Goods',
+              query: {goodsId: this.goodsId}
+          })
+      }
+  },
 }
 </script>
 
