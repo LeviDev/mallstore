@@ -6,6 +6,7 @@ const URL = {
     registerUser: LOCAL_URL + "user/register",
     login: LOCAL_URL + "user/login",
     goodsInfo: LOCAL_URL + "goods/getDetailInfo",
+    categoryInfo: LOCAL_URL + "goods/listCategory",
 }
 
 export default URL

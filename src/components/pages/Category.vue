@@ -1,52 +1,83 @@
 <template>
     <div>
-        <div class="search-bar">
-            <van-row>
-                <van-col span="3">
-                    <img :src="locationIcon" alt="" width="80%" class="location-icon">
-                </van-col>
-                <van-col span="16">
-                    <input type="text" class="search-input">
-                </van-col>
-                <van-col span="5">
-                    <van-button size="mini">查找</van-button>
-                </van-col>
-            </van-row>
+        <div class="nav-bar">
+            <van-nav-bar title="产品分类" />
         </div>
+
+        <!-- 分类 -->
+        <van-row>
+            <van-col span="6">
+                <div id="nav-left">
+                    <ul>
+                        <li :class="{activeCategory: currentIndex == index}" @click="setCurrentCategory(index)" v-for="(item, index) in categories " :key="index">
+                            {{item.MALL_CATEGORY_NAME}}
+                        </li>
+                    </ul>
+                </div>
+            </van-col>
+            <van-col span="18">
+                <div>
+                    右侧
+                </div>
+            </van-col>
+        </van-row>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+import url from '@/server.config.js'
+
 export default {
+    created() {
+        this.getCategories()
+    },
+    mounted() {
+        let winHeight = document.documentElement.clientHeight
+        document.getElementById('nav-left').style.height = winHeight - 46 + 'px'
+    },
+    methods: {
+        getCategories() {
+            axios({
+                url: url.categoryInfo,
+                method: 'get'
+            })
+                .then(response => {
+                    if (response.data.code == 200 && response.data.message) {
+                        this.categories = response.data.message
+                        console.log(this.categories)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        setCurrentCategory(index) {
+            this.currentIndex = index
+        }
+    },
     data() {
         return {
-            locationIcon: require('../../assets/images/location.png')
+            categories: [],
+            currentIndex: 0
         }
     }
 }
 </script>
 
 <style scoped>
-.search-bar {
-    height: 2.2rem;
-    line-height: 2.2rem;
-    background-color: darkorchid;
-    overflow: hidden;
+#nav-left {
+    background-color: aliceblue;
+}
+#nav-left ul li {
+    line-height: 2rem;
+    border-bottom: 1px solid #e4e7ed;
+    padding: 3px;
+    font-size: 0.8rem;
+    text-align: center;
 }
 
-.location-icon {
-  padding-left: 0.2rem;
-  padding-bottom: 0.3rem;
+.activeCategory {
+    background-color: white;
 }
-
-.search-input {
-  width: 100%;
-  height: 1.3rem;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #ffffff !important;
-  background-color: darkorchid;
-}
-
 </style>
