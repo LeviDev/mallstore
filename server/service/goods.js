@@ -120,9 +120,10 @@ router.get('/listCategory', async (ctx) => {
 })
 
 
-router.get('/listCategorySub', async(ctx) => {
+router.post('/listCategorySub', async(ctx) => {
     const CategorySub = mongoose.model('CategorySub')
-    await CategorySub.find()
+    let categoryId = ctx.request.body.categoryId
+    await CategorySub.find({MALL_CATEGORY_ID: categoryId})
     .exec()
     .then(async(response) => {
         ctx.body = {

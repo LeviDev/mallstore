@@ -9,15 +9,17 @@
             <van-col span="6">
                 <div id="nav-left">
                     <ul>
-                        <li :class="{activeCategory: currentIndex == index}" @click="setCurrentCategory(index)" v-for="(item, index) in categories " :key="index">
+                        <li :class="{activeCategory: currentIndex == index}" @click="setCurrentCategory(index, item.ID)" v-for="(item, index) in categories " :key="index">
                             {{item.MALL_CATEGORY_NAME}}
                         </li>
                     </ul>
                 </div>
             </van-col>
             <van-col span="18">
-                <div>
-                    右侧
+                <div class="nav-right">
+                    <van-tabs v-model="activeSubIndex">
+                        <van-tab  v-for="(item, index) in categorySubs" :key="index" :title="item.MALL_SUB_NAME"></van-tab>
+                    </van-tabs>
                 </div>
             </van-col>
         </van-row>
@@ -45,6 +47,7 @@ export default {
                 .then(response => {
                     if (response.data.code == 200 && response.data.message) {
                         this.categories = response.data.message
+                        this.getCategorySubs(this.categories[0].ID)
                         console.log(this.categories)
                     }
                 })
@@ -52,14 +55,34 @@ export default {
                     console.log(error)
                 })
         },
-        setCurrentCategory(index) {
+        setCurrentCategory(index, categoryId) {
             this.currentIndex = index
+            this.getCategorySubs(categoryId)
+        },
+        getCategorySubs(categoryId) {
+            axios({
+                url: url.categorySubInfo,
+                method: 'post',
+                data: { categoryId: categoryId }
+            })
+                .then(response => {
+                    if (response.data.code == 200 && response.data.message) {
+                        this.categorySubs = response.data.message
+                        this.activeSubIndex = 0
+                        console.log(this.categories)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
     },
     data() {
         return {
             categories: [],
-            currentIndex: 0
+            currentIndex: 0,
+            activeSubIndex: 0,
+            categorySubs: []
         }
     }
 }

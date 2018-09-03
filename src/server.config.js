@@ -7,6 +7,7 @@ const URL = {
     login: LOCAL_URL + "user/login",
     goodsInfo: LOCAL_URL + "goods/getDetailInfo",
     categoryInfo: LOCAL_URL + "goods/listCategory",
+    categorySubInfo: LOCAL_URL + "goods/listCategorySub",
 }
 
 export default URL
