@@ -94,130 +94,137 @@ import { toPrice } from '@/filters/priceFilter.js'
 import url from '@/server.config.js'
 
 export default {
-  data() {
-    return {
-      msg: 'value',
-      locationIcon: require('../../assets/images/location.png'),
-      bannerPicArray: [],
-      categoryArray: [],
-      adBanner: '',
-      recommendGoods: [],
-      floor1: [],
-      floor2: [],
-      floor3: [],
-      floorName: {},
-      hotSales: [],
+    data() {
+        return {
+            msg: 'value',
+            locationIcon: require('../../assets/images/location.png'),
+            bannerPicArray: [],
+            categoryArray: [],
+            adBanner: '',
+            recommendGoods: [],
+            floor1: [],
+            floor2: [],
+            floor3: [],
+            floorName: {},
+            hotSales: [],
 
-      swiperOption: {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
+            swiperOption: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                }
+            }
         }
-      }
-    }
-  },
-  components: {
-    swiper,
-    swiperSlide,
-    floorComponent,
-    goodsInfo
-  },
-  filters: {
-    priceFormat(price) {
-      return toPrice(price)
-    }
-  },
-  created() {
-    axios({
-      url: url.homeInfo,
-      method: 'get'
-    })
-      .then(response => {
-        if (response.status == 200) {
-          console.log(response)
-          this.bannerPicArray = response.data.data.slides
-          this.categoryArray = response.data.data.category
-          this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS
-          this.recommendGoods = response.data.data.recommend
-          this.floor1 = response.data.data.floor1
-          this.floor2 = response.data.data.floor2
-          this.floor3 = response.data.data.floor3
-          this.floorName = response.data.data.floorName
-          this.hotSales = response.data.data.hotGoods
+    },
+    components: {
+        swiper,
+        swiperSlide,
+        floorComponent,
+        goodsInfo
+    },
+    filters: {
+        priceFormat(price) {
+            return toPrice(price)
         }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+    },
+    created() {
+        axios({
+            url: url.homeInfo,
+            method: 'get'
+        })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log(response)
+                    this.bannerPicArray = response.data.data.slides
+                    this.categoryArray = response.data.data.category
+                    this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS
+                    this.recommendGoods = response.data.data.recommend
+                    this.floor1 = response.data.data.floor1
+                    this.floor2 = response.data.data.floor2
+                    this.floor3 = response.data.data.floor3
+                    this.floorName = response.data.data.floorName
+                    this.hotSales = response.data.data.hotGoods
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 }
 </script>
 
 <style scoped>
 .search-bar {
-  height: 2.2rem;
-  line-height: 2.2rem;
-  background-color: darkorchid;
-  overflow: hidden;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    background-color: darkorchid;
+    overflow: hidden;
 }
 
 .location-icon {
-  padding-left: 0.2rem;
-  padding-bottom: 0.3rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.3rem;
 }
 .search-input {
-  width: 100%;
-  height: 1.3rem;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #ffffff !important;
-  background-color: darkorchid;
+    width: 100%;
+    height: 1.3rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #ffffff !important;
+    background-color: darkorchid;
 }
 
 .swiper-area {
-  clear: both;
-  max-height: 12rem;
-  overflow: hidden;
+    clear: both;
+    max-height: 12rem;
+    overflow: hidden;
 }
 
 .category-bar {
-  background-color: #ffffff;
-  margin: 0 0.3rem 0.3rem 0.3rem;
-  border-radius: 0.3rem;
-  font-size: 14px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+    background-color: #ffffff;
+    margin: 0 0.3rem 0.3rem 0.3rem;
+    border-radius: 0.3rem;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.category-bar div {
+    padding: 0.3rem;
+    font-size: 12px;
+    text-align: center;
+    flex: 1;
 }
 
 .recommend-area {
-  background-color: #ffffff;
-  margin-top: 0.3rem;
+    background-color: #ffffff;
+    margin-top: 0.3rem;
 }
 
 .recommend-title {
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  padding: 0.2rem;
-  color: darkorchid;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    padding: 0.2rem;
+    color: darkorchid;
 }
 .recommend-body {
-  border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 .recommend-item {
-  width: 99%;
-  border-right: 1px solid #eee;
-  font-size: 12px;
-  text-align: center;
+    width: 99%;
+    border-right: 1px solid #eee;
+    font-size: 12px;
+    text-align: center;
 }
 
 .hot-sale-area {
-  text-align: center;
-  font-size: 14px;
-  height: 1.8rem;
-  line-height: 1.8rem;
+    text-align: center;
+    font-size: 14px;
+    height: 1.8rem;
+    line-height: 1.8rem;
 }
 </style>

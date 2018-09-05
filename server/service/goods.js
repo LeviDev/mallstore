@@ -139,5 +139,26 @@ router.post('/listCategorySub', async(ctx) => {
     })
 })
 
+router.post('/listGoodsBySubId', async(ctx) => {
+    let categorySubId = ctx.request.body.categorySubId
+    let page = ctx.request.body.page
+    const num = 10
+    let start = (page - 1) * num
+    try {
+        const Goods = mongoose.model('Goods')
+        let result = await Goods.find({SUB_ID: categorySubId}).skip(start).limit(num).exec()
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+    }
+    catch(error) {
+        ctx.body = {
+            code: 500,
+            message: error
+        }
+    }
+})
+
 
 module.exports = router

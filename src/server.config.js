@@ -8,6 +8,7 @@ const URL = {
     goodsInfo: LOCAL_URL + "goods/getDetailInfo",
     categoryInfo: LOCAL_URL + "goods/listCategory",
     categorySubInfo: LOCAL_URL + "goods/listCategorySub",
+    listGoodsBySubId: LOCAL_URL + "goods/listGoodsBySubId", //small category goods info
 }
 
 export default URL

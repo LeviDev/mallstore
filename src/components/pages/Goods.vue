@@ -27,7 +27,7 @@
         <!-- bottom -->
         <div class="goods-bottom">
             <div>
-                <van-button size="large" type="primary">加入购物车</van-button>
+                <van-button @click="addToCart" size="large" type="primary">加入购物车</van-button>
             </div>
             <div>
                 <van-button size="large" type="danger">马上购买</van-button>
@@ -49,7 +49,7 @@ export default {
         }
     },
     created() {
-        this.goodsId = this.$route.query.goodsId
+        this.goodsId = this.$route.query.goodsId ? this.$route.query.goodsId : this.$route.params.goodsId
         this.getGoddsInfo()
     },
     filters: {
@@ -80,6 +80,25 @@ export default {
         },
         goBack() {
             this.$router.go(-1)
+        },
+        addToCart() {
+            let cartInfo = localStorage.cartInfo ? JSON.parse(localStorage.cartInfo) : []
+            let existItem = cartInfo.find(cart => {
+                return cart.goodsId == this.goodsId
+            })
+            if (!existItem) {
+                let newGoods = {
+                    goodsId: this.goodsInfo.ID,
+                    name: this.goodsInfo.NAME,
+                    image: this.goodsInfo.IMAGE1,
+                    count: 1
+                }
+                cartInfo.push(newGoods)
+            } else {
+                existItem.count++
+            }
+            localStorage.cartInfo = JSON.stringify(cartInfo);
+            Toast.success('商品成功加入购物车')
         }
     }
 }
