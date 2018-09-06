@@ -91,13 +91,14 @@ export default {
                     goodsId: this.goodsInfo.ID,
                     name: this.goodsInfo.NAME,
                     image: this.goodsInfo.IMAGE1,
+                    price: this.goodsInfo.ORI_PRICE,
                     count: 1
                 }
                 cartInfo.push(newGoods)
             } else {
                 existItem.count++
             }
-            localStorage.cartInfo = JSON.stringify(cartInfo);
+            localStorage.cartInfo = JSON.stringify(cartInfo)
             Toast.success('商品成功加入购物车')
         }
     }
