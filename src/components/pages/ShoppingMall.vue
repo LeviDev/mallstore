@@ -227,4 +227,11 @@ export default {
     height: 1.8rem;
     line-height: 1.8rem;
 }
+
+.hot-sale-item {
+    height: 136rem;
+    background-color: white;
+    overflow: hidden;
+}
+
 </style>

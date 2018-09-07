@@ -7,40 +7,47 @@ import Login from '@/components/pages/Login'
 import Goods from '@/components/pages/Goods'
 import Category from '@/components/pages/Category'
 import Cart from '@/components/pages/Cart'
+import Main from '@/components/pages/Main'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'ShoppingMall',
-      component: ShoppingMall
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/goods',
-      name: 'Goods',
-      component: Goods
-    },
-    {
-      path: '/category',
-      name: 'Category',
-      component: Category
-    },
-    {
-      path: '/cart',
-      name: 'Cart',
-      component: Cart
-    },
-  ]
+    routes: [{
+            path: '/main',
+            name: 'Main',
+            component: Main,
+            children: [{
+                    path: '/',
+                    name: 'ShoppingMall',
+                    component: ShoppingMall
+                },
+                {
+                    path: '/category',
+                    name: 'Category',
+                    component: Category
+                },
+                {
+                    path: '/cart',
+                    name: 'Cart',
+                    component: Cart
+                },
+            ]
+        },
+
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/goods',
+            name: 'Goods',
+            component: Goods
+        },
+    ]
 })

@@ -9,21 +9,24 @@
             </van-button>
         </div>
 
-        <div class="goods-list" v-for="(item, index) in cartInfo" :key="index">
-            <div class="goods-image">
-                <img :src="item.image" alt="" width="100%">
-            </div>
-            <div class="goods-text">
-                <div class="goods-name"> {{item.name}} </div>
-                <div class="goods-price"> ￥ {{item.price | priceFormat}} x {{item.count}} = <span style="color:red">{{item.price * item.count | priceFormat}}</span> 元</div>
-                <div class="goods-count">
-                    <van-stepper v-model="item.count"> </van-stepper>
+        <div class="goods-items">
+            <div class="goods-list" v-for="(item, index) in cartInfo" :key="index">
+                <div class="goods-image">
+                    <img :src="item.image" alt="" width="100%">
+                </div>
+                <div class="goods-text">
+                    <div class="goods-name"> {{item.name}} </div>
+                    <div class="goods-price"> ￥ {{item.price | priceFormat}} x {{item.count}} =
+                        <span style="color:red">{{item.price * item.count | priceFormat}}</span> 元</div>
+                    <div class="goods-count">
+                        <van-stepper v-model="item.count"> </van-stepper>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="submit-area">
-            <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="onSubmit">
-                
+            <van-submit-bar class="submit-bar" :price="totalPrice" button-text="提交订单" @submit="onSubmit">
+
             </van-submit-bar>
         </div>
     </div>
@@ -87,6 +90,11 @@ export default {
     text-align: right;
 }
 
+.goods-items {
+    height: 25em;
+    overflow: scroll;
+}
+
 .goods-list {
     display: flex;
     flex-direction: row;
@@ -112,5 +120,9 @@ export default {
 .goods-count {
     padding-top: 10px;
     text-align: right;
+}
+
+.submit-bar {
+    margin-bottom: 50px;
 }
 </style>

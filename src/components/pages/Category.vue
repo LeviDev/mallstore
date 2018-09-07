@@ -52,8 +52,8 @@ export default {
     },
     mounted() {
         let winHeight = document.documentElement.clientHeight
-        document.getElementById('nav-left').style.height = winHeight - 46 + 'px'
-        document.getElementById('goods-list').style.height = winHeight - 90 + 'px'
+        document.getElementById('nav-left').style.height = winHeight - 46 - 50 + 'px'
+        document.getElementById('goods-list').style.height = winHeight - 90 - 50 + 'px'
     },
     methods: {
         getCategories() {

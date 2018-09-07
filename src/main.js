@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {Tab, Tabs, Button, Row, Col, Swipe, SwipeItem, Lazyload, List, Field, NavBar, Cell, PullRefresh, Stepper, SubmitBar} from 'vant'
+import {Tab, Tabs, Button, Row, Col, Swipe, SwipeItem, Lazyload, List, Field, NavBar, Cell, PullRefresh, Stepper, SubmitBar, Tabbar, TabbarItem} from 'vant'
 
 Vue.use(Tabs).use(Tab).use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem).use(Lazyload).use(List).use(Field).use(NavBar).use(Cell).use(PullRefresh).use(Stepper)
-  .use(SubmitBar)
+  .use(SubmitBar).use(Tabbar).use(TabbarItem)
 
 Vue.config.productionTip = false
 
