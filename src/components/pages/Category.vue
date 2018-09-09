@@ -9,7 +9,7 @@
             <van-col span="6">
                 <div id="nav-left">
                     <ul>
-                        <li :class="{activeCategory: currentIndex == index}" @click="onclickCategory(index, item.ID)" v-for="(item, index) in categories " :key="index">
+                        <li :class="{activeCategory: activeCategoryId == item.ID}" @click="onclickCategory(item.ID)" v-for="(item, index) in categories " :key="index">
                             {{item.MALL_CATEGORY_NAME}}
                         </li>
                     </ul>
@@ -47,7 +47,11 @@ import url from '@/server.config.js'
 import { toPrice } from '@/filters/priceFilter.js'
 
 export default {
+    activated() {
+        this.activeCategoryId = this.$route.query.categoryId ? this.$route.query.categoryId : this.activeCategoryId
+    },
     created() {
+        console.log("created")
         this.getCategories()
     },
     mounted() {
@@ -64,16 +68,17 @@ export default {
                 .then(response => {
                     if (response.data.code == 200 && response.data.message) {
                         this.categories = response.data.message
-                        this.getCategorySubs(this.categories[0].ID)
-                        console.log(this.categories)
+                        this.activeCategoryId = this.activeCategoryId == -1 ? this.categories[0].ID : this.activeCategoryId
+                        this.getCategorySubs(this.activeCategoryId)
+                        // console.log(this.categories)
                     }
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
-        onclickCategory(index, categoryId) {
-            this.currentIndex = index
+        onclickCategory(categoryId) {
+            this.activeCategoryId = categoryId
             this.resetSubList()
             this.getCategorySubs(categoryId)
         },
@@ -146,15 +151,15 @@ export default {
         },
         goGoodsDetail(id) {
             this.$router.push({
-                name:'Goods',
-                params: {goodsId: id}
+                name: 'Goods',
+                params: { goodsId: id }
             })
         }
     },
     data() {
         return {
             categories: [],
-            currentIndex: 0,
+            activeCategoryId: -1,
             activeSubIndex: 0,
             categorySubs: [],
             loading: false,

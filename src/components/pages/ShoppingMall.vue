@@ -25,9 +25,9 @@
 
         <!-- category -->
         <div class="category-bar">
-            <div v-for="(cate, index) in categoryArray" :key="index">
-                <img v-lazy="cate.image" alt="" width="90%">
-                <span>{{cate.mallCategoryName}}</span>
+            <div v-for="(item, index) in categoryArray" :key="index" @click="goCategory(index, item.mallCategoryId)">
+                <img v-lazy="item.image" alt="" width="90%">
+                <span>{{item.mallCategoryName}}</span>
             </div>
         </div>
 
@@ -44,8 +44,8 @@
             <div class="recommend-body">
                 <swiper :options="swiperOption">
                     <swiper-slide v-for="(item, index) in recommendGoods" :key=index>
-                        <div class="recommend-item">
-                            <img :src="item.image" alt="" width="80%">
+                        <div class="recommend-item" @click="goGoodsInfo(item.goodsId)">
+                            <img v-lazy="item.image" alt="" width="80%">
                             <div>
                                 {{item.goodsName}}
                             </div>
@@ -151,6 +151,25 @@ export default {
             .catch(error => {
                 console.log(error)
             })
+    },
+    methods: {
+        goCategory(index, categoryId) {
+            this.$router.push({
+                name: 'Category',
+                query: {
+                    categoryId: categoryId,
+                    index,
+                    index
+                }
+            })
+        },
+        goGoodsInfo(goodsId) {
+            console.log('goGoodsInfo, id:' + goodsId)
+            this.$router.push({
+                name: 'Goods',
+                query: { goodsId: goodsId }
+            })
+        }
     }
 }
 </script>
@@ -233,5 +252,4 @@ export default {
     background-color: white;
     overflow: hidden;
 }
-
 </style>

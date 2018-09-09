@@ -30,7 +30,7 @@
                 <van-button @click="addToCart" size="large" type="primary">加入购物车</van-button>
             </div>
             <div>
-                <van-button size="large" type="danger">马上购买</van-button>
+                <van-button @click="buyDirectly" size="large" type="danger">马上购买</van-button>
             </div>
         </div>
     </div>
@@ -99,7 +99,11 @@ export default {
                 existItem.count++
             }
             localStorage.cartInfo = JSON.stringify(cartInfo)
-            Toast.success('商品成功加入购物车')
+            Toast.success('添加成功')
+        },
+        buyDirectly() {
+            this.addToCart()
+            this.$router.push({name: 'Cart'})
         }
     }
 }

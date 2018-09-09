@@ -21,6 +21,12 @@ export default {
             active: 0
         }
     },
+    updated() {
+        this.onActiveBarChange()
+    },
+    created() {
+        this.onActiveBarChange()
+    },
     methods: {
         onActiveChange(active) {
             switch (active) {
@@ -34,7 +40,23 @@ export default {
                     this.$router.push({ name: 'Cart' })
                     break
                 case 3:
+                    this.$router.push({ name: 'Member' })
                     break
+            }
+        },
+        onActiveBarChange() {
+            let name = this.$route.name
+            // console.log(this.$route)
+            if (name == 'ShoppingMall') {
+                this.active = 0
+            } else if (name == 'Category') {
+                this.active = 1
+            } else if (name == 'Cart') {
+                this.active = 2
+            } else if (name == 'Category') {
+                this.active = 1
+            } else if (name == 'Member') {
+                this.active = 3
             }
         }
     }

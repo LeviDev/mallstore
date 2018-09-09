@@ -103,6 +103,9 @@ router.get('/listCategory', async (ctx) => {
     const id = 1
     const Category = mongoose.model('Category')
     await Category.find()
+    .sort({
+        'SORT' : 1
+    })
     .exec()
     .then(async(response) => {
         console.log(response)

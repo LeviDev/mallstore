@@ -4,20 +4,20 @@
             {{floorTitle}}
         </div>
         <div class="floor-abnormal">
-            <div class="floor-one">
+            <div class="floor-one" @click="goGoodsInfo(floorData0.goodsId)">
                 <img :src="floorData0.image" alt="" width="100%">
             </div>
-            <div>
-                <div class="floor-two">
+            <div class="floor-two">
+                <div @click="goGoodsInfo(floorData1.goodsId)">
                     <img :src="floorData1.image" alt="" width="100%">
                 </div>
-                <div>
+                <div @click="goGoodsInfo(floorData2.goodsId)">
                     <img :src="floorData2.image" alt="" width="100%">
                 </div>
             </div>
         </div>
         <div class="floor-reqular">
-            <div v-for="(item, index) in floorData.slice(3)" :key=index>
+            <div v-for="(item, index) in floorData.slice(3)" :key="index" @click="goGoodsInfo(floorData2.goodsId)"> 
                 <img :src="item.image" alt="" width="100%">
             </div>
         </div>
@@ -26,45 +26,54 @@
 
 <script>
 export default {
-  props: ['floorData', 'floorTitle'],
-  data() {
-    return {
-      floorData0: {},
-      floorData1: {},
-      floorData2: {},
+    props: ['floorData', 'floorTitle'],
+    data() {
+        return {
+            floorData0: {},
+            floorData1: {},
+            floorData2: {}
+        }
+    },
+    watch: {
+        floorData: function(val) {
+            this.floorData0 = this.floorData[0]
+            this.floorData1 = this.floorData[1]
+            this.floorData2 = this.floorData[2]
+        }
+    },
+    methods: {
+        goGoodsInfo(goodsId) {
+            console.log('goGoodsInfo, id:' + goodsId)
+            this.$router.push({
+                name: 'Goods',
+                query: { goodsId: goodsId }
+            })
+        }
     }
-  },
-  watch: {
-    floorData: function(val) {
-      this.floorData0 = this.floorData[0]
-      this.floorData1 = this.floorData[1]
-      this.floorData2 = this.floorData[2]
-    }
-  }
 }
 </script>
 
 <style scoped>
 .floor-abnormal {
-  display: flex;
-  flex-direction: row;
-  font-size: 12px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
 }
 
 .floor-abnormal div {
-  width: 10rem;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-bottom: 1px solid #ddd;
+    width: 10rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
 }
 
 .floor-one {
-  border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }
 .floor-two {
-  border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .floor-reqular {
@@ -85,11 +94,10 @@ export default {
     border-right: 1px solid #ddd;
 }
 
-.floor-title{
+.floor-title {
     text-align: center;
     line-height: 1.8em;
     height: 1.8em;
     font-size: 14px;
 }
-
 </style>

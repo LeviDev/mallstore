@@ -8,6 +8,8 @@ import Goods from '@/components/pages/Goods'
 import Category from '@/components/pages/Category'
 import Cart from '@/components/pages/Cart'
 import Main from '@/components/pages/Main'
+import Member from '@/components/pages/Member'
+import Address from '@/components/pages/Address'
 
 Vue.use(Router)
 
@@ -31,6 +33,11 @@ export default new Router({
                     name: 'Cart',
                     component: Cart
                 },
+                {
+                    path: '/member',
+                    name: 'Member',
+                    component: Member
+                },
             ]
         },
 
@@ -48,6 +55,11 @@ export default new Router({
             path: '/goods',
             name: 'Goods',
             component: Goods
+        },
+        {
+            path: '/address',
+            name: 'Address',
+            component: Address
         },
     ]
 })
