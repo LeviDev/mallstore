@@ -17,8 +17,8 @@
         <!-- swiper area -->
         <div class="swiper-area">
             <van-swipe :autoplay="3000">
-                <van-swipe-item v-for="(banner, index) in bannerPicArray" :key="index">
-                    <img v-lazy="banner.image" alt="" width="100%">
+                <van-swipe-item v-for="(banner, index) in bannerPicArray" :key="index" >
+                    <img v-lazy="banner.image" alt="" width="100%" @click="goGoodsInfo(banner.goodsId)">
                 </van-swipe-item>
             </van-swipe>
         </div>
